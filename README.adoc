@@ -1,0 +1,7 @@
+= Ada/Userland
+
+This repository contains a collection of utilities implemented in Ada as an
+exercise. The goal is to be functionally equivalent to the GNU shell
+utilities/userland.
+
+
