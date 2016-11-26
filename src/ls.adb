@@ -16,6 +16,7 @@ procedure Ls is
        Ada.Strings.Unbounded,
        Ada.Text_IO,
        GNAT.Directory_Operations,
+       GNAT.Command_Line,
        Userland,
        Userland.IO;
 
@@ -60,12 +61,43 @@ procedure Ls is
 
    Elements : Dir_Elements.Set;
    Show_Hidden : Boolean := False;
+   Reverse_Sort : Boolean := False;
+
+   procedure Print_Element (Element     : in Dir_Element;
+                            Show_Hidden : in Boolean := False) is
+      use Ada.Text_IO;
+   begin
+      if (Element.Hidden = False) or (Element.Hidden = Show_Hidden) then
+         Put (To_String (Element.Name));
+
+         if Is_Piped then
+            New_Line;
+         else
+            Put ("  ");
+         end if;
+      end if;
+   end Print_Element;
+
 begin
    loop
-      case GNAT.Command_Line.Getopt ("a") is
+      case Getopt ("a r -all -reverse") is
       when 'a' =>
          Show_Hidden := True;
-      when others => exit;
+
+      when 'r' =>
+         Reverse_Sort := True;
+
+      when '-' =>
+         if Full_Switch = "-all" then
+            Show_Hidden := True;
+         end if;
+
+         if Full_Switch = "-reverse" then
+            Reverse_Sort := True;
+         end if;
+
+      when others =>
+         exit;
       end case;
    end loop;
 
@@ -82,15 +114,16 @@ begin
       end if;
    end;
 
-   for E of Elements loop
-      if (E.Hidden = False) or (E.Hidden = Show_Hidden) then
-         Put (To_String (E.Name));
+   if Reverse_Sort then
+      for E of reverse Elements loop
+         Print_Element (Element     => E,
+                        Show_Hidden => Show_Hidden);
+      end loop;
+      return;
+   end if;
 
-         if Is_Piped then
-            New_Line;
-         else
-            Put ("  ");
-         end if;
-      end if;
+   for E of Elements loop
+      Print_Element (Element     => E,
+                     Show_Hidden => Show_Hidden);
    end loop;
 end Ls;
