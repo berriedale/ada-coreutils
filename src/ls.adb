@@ -7,6 +7,7 @@ with Ada.Command_Line,
      Ada.Text_IO,
      GNAT.Directory_Operations,
      GNAT.Command_Line,
+     GNAT.OS_Lib,
      Userland,
      Userland.IO;
 
@@ -57,12 +58,22 @@ procedure Ls is
       return Elements;
    end List_Directory;
 
-
    Elements : Dir_Elements.Set;
 begin
    if Argument_Count = 0 then
       Elements := List_Directory (Get_Current_Dir);
    else
+      declare
+         Target : constant String := Argument (1);
+      begin
+         if GNAT.OS_Lib.Is_Directory (Target) then
+           Elements := List_Directory (Target);
+         else
+            Put_Line (Target);
+            return;
+         end if;
+      end;
+
       Elements := List_Directory (Argument (1));
    end if;
 
