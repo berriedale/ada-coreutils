@@ -12,8 +12,3 @@ load ../test_helper
     [ "$status" -eq 0 ]
     [ "$output" =  "true (Ada coreutils) 0.1" ];
 }
-
-@test "true --help" {
-    _run true --help
-    [ "$status" -eq 0 ]
-}
