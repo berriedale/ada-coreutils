@@ -1,5 +1,7 @@
 #!/usr/bin/env bats
 
+load ../test_helper
+
 FIXTURE=Fixturefile.$(date "+%Y%m%d-%H:%M")
 
 setup() {
@@ -11,7 +13,7 @@ teardown() {
 }
 
 @test "List a file" {
-    run ls $FIXTURE
+    _run ls $FIXTURE
     [ "$status" -eq 0 ]
     [ "$output" = "$(/bin/ls $FIXTURE)" ]
 }
