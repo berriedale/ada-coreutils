@@ -3,6 +3,7 @@
 ---
 
 with Ada.Characters.Latin_1,
+     Ada.Characters.Handling,
      Ada.Command_Line,
      Ada.Containers.Indefinite_Ordered_Sets,
      Ada.Strings.Fixed,
@@ -34,11 +35,15 @@ procedure Ls is
    -- and display
 
    function Compare_Dir_Elements (Left, Right : Dir_Element) return Boolean is
+      use Ada.Characters.Handling,
+          Ada.Strings.Unbounded;
    begin
-      return Left.Name < Right.Name;
+      return To_Lower (To_String (Left.Name)) < To_Lower (To_String (Right.Name));
    end Compare_Dir_Elements;
 
    function Equal_Dir_Elements (Left, Right : Dir_Element) return Boolean is
+      use Ada.Characters.Handling,
+          Ada.Strings.Unbounded;
    begin
       return Left.Name = Right.Name;
    end Equal_Dir_Elements;
@@ -87,7 +92,7 @@ procedure Ls is
       for E of Elements loop
          if E.Hidden /= True then
             Put (To_String (E.Name));
-            Put (Ada.Characters.Latin_1.Space);
+            Put ("  ");
          end if;
       end loop;
 
