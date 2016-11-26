@@ -59,29 +59,35 @@ procedure Ls is
    end List_Directory;
 
    Elements : Dir_Elements.Set;
+   Show_Hidden : Boolean := False;
 begin
-   if Argument_Count = 0 then
-      Elements := List_Directory (Get_Current_Dir);
-   else
-      declare
-         Target : constant String := Argument (1);
-      begin
-         if GNAT.OS_Lib.Is_Directory (Target) then
-           Elements := List_Directory (Target);
-         else
-            Put_Line (Target);
-            return;
-         end if;
-      end;
+   loop
+      case GNAT.Command_Line.Getopt ("a") is
+      when 'a' =>
+         Show_Hidden := True;
+      when others => exit;
+      end case;
+   end loop;
 
-      Elements := List_Directory (Argument (1));
-   end if;
+   declare
+      Target : String := GNAT.Command_Line.Get_Argument;
+   begin
+      if Target'Length = 0 then
+         Elements := List_Directory (Get_Current_Dir);
+      elsif GNAT.OS_Lib.Is_Directory (Target) then
+         Elements := List_Directory (Target);
+      else
+         Put_Line (Target);
+         return;
+      end if;
+   end;
 
    for E of Elements loop
-      if E.Hidden = False then
+      if (E.Hidden = False) or (E.Hidden = Show_Hidden) then
          Put (To_String (E.Name));
+
          if Is_Piped then
-           New_Line;
+            New_Line;
          else
             Put ("  ");
          end if;
