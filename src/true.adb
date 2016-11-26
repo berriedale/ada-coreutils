@@ -18,9 +18,22 @@
 --  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ------------------------------------------------------------------------------
 
-with Ada.Command_Line;
+with Ada.Command_Line,
+     Ada.Text_IO,
+     GNAT.Command_Line;
 
 procedure BinTrue is
+   use GNAT.Command_Line;
 begin
+   loop
+      case Getopt ("-version") is
+      when '-' =>
+         if Full_Switch = "-version" then
+            Ada.Text_IO.Put_Line ("true (Ada coreutils) 0.1");
+         end if;
+      when others => exit;
+      end case;
+   end loop;
+
    Ada.Command_Line.Set_Exit_Status (Code => 0);
 end BinTrue;
