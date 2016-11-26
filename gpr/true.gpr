@@ -3,7 +3,7 @@ project True is
    for Source_Dirs use ("../src");
    for Object_Dir use "../build/obj";
 
-   for Main use ("true.adb");
+   for Main use ("bintrue.adb");
 
    package Linker is
       for Default_Switches ("ada") use ("-fprofile-generate");
