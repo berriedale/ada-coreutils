@@ -12,6 +12,8 @@ with Ada.Characters.Latin_1,
      GNAT.Directory_Operations,
      GNAT.Command_Line;
 
+      with Interfaces.C_Streams;
+
 procedure Ls is
    use Ada.Command_Line,
        Ada.Strings.Unbounded,
@@ -34,11 +36,29 @@ procedure Ls is
    -- Record for processing directory item meta-data once for later re-use
    -- and display
 
+   function To_Lower (Input : in Ada.Strings.Unbounded.Unbounded_String) return String is
+   -- Lower-case an entire Unbounded_String and return a Standard.String instead
+
+      use Ada.Characters.Handling,
+          Ada.Strings.Unbounded;
+   begin
+      return To_Lower (To_String (Input));
+   end To_Lower;
+
+   function Is_Piped return Boolean is
+   -- Return True if our current Standard_Output is a Unix Pipe, and therefore
+   -- we're not printing to a normal terminal
+      use Interfaces.C_Streams;
+      Output_Stream : constant Integer := fileno (stdout);
+   begin
+      return isatty (Output_Stream) = 0;
+   end Is_Piped;
+
    function Compare_Dir_Elements (Left, Right : Dir_Element) return Boolean is
       use Ada.Characters.Handling,
           Ada.Strings.Unbounded;
    begin
-      return To_Lower (To_String (Left.Name)) < To_Lower (To_String (Right.Name));
+      return To_Lower (Left.Name) < To_Lower (Right.Name);
    end Compare_Dir_Elements;
 
    function Equal_Dir_Elements (Left, Right : Dir_Element) return Boolean is
@@ -92,7 +112,11 @@ procedure Ls is
       for E of Elements loop
          if E.Hidden /= True then
             Put (To_String (E.Name));
-            Put ("  ");
+            if Is_Piped then
+               New_Line;
+            else
+               Put ("  ");
+            end if;
          end if;
       end loop;
 

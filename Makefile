@@ -3,9 +3,7 @@
 BUILDDIR=build/obj
 GPRBUILD=`which gprbuild`
 
-all: pre ${BUILDDIR}/ls
-
-${BUILDDIR}/ls:
+all: pre
 	${GPRBUILD} -Puserland.gpr
 
 pre:
