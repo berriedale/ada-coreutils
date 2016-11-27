@@ -7,3 +7,9 @@ load ../test_helper
     [ "$status" -eq 0 ]
     [ "$output" = "$(/bin/pwd)" ];
 }
+
+@test "pwd --version" {
+    _run pwd --version
+    [ "$status" -eq 0 ]
+    [ "$output" =  "pwd (Ada coreutils) 0.1" ];
+}

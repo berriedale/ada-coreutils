@@ -24,4 +24,8 @@ package Userland is
    function To_Lower (Input : in Ada.Strings.Unbounded.Unbounded_String)
                       return String;
    -- Lower-case an entire Unbounded_String and return a Standard.String instead
+
+
+   function Version return String;
+   -- Return the built version of the this suite of tools
 end Userland;

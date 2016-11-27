@@ -20,14 +20,29 @@
 
 
 with Ada.Text_IO,
-     GNAT.Directory_Operations;
+     GNAT.Command_Line,
+     GNAT.Directory_Operations,
+     Userland;
 
 procedure Pwd is
    use Ada.Text_IO,
+       GNAT.Command_Line,
        GNAT.Directory_Operations;
 
    PWD : constant String := Get_Current_Dir;
 begin
+
+   loop
+      case Getopt("-version") is
+         when '-' =>
+            if Full_Switch = "-version" then
+               Put_Line ("pwd " & Userland.Version);
+               return;
+            end if;
+         when others => exit;
+      end case;
+   end loop;
+
    -- Get_Current_Dir comes with a trailing slash, so we must trim that off for
    -- printing
    Put_Line (PWD (1 .. (PWD'Length - 1)));

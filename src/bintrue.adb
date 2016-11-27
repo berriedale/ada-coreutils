@@ -20,7 +20,8 @@
 
 with Ada.Command_Line,
      Ada.Text_IO,
-     GNAT.Command_Line;
+     GNAT.Command_Line,
+     Userland;
 
 procedure BinTrue is
    use GNAT.Command_Line;
@@ -29,7 +30,7 @@ begin
       case Getopt ("-version") is
       when '-' =>
          if Full_Switch = "-version" then
-            Ada.Text_IO.Put_Line ("true (Ada coreutils) 0.1");
+            Ada.Text_IO.Put_Line ("true " & Userland.Version);
          end if;
       when others => exit;
       end case;

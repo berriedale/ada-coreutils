@@ -31,4 +31,8 @@ package body Userland is
       return To_Lower (To_String (Input));
    end To_Lower;
 
+   function Version return String is
+   begin
+      return "(Ada coreutils) 0.1";
+   end Version;
 end Userland;
