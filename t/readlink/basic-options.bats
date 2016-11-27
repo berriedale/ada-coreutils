@@ -13,6 +13,12 @@ teardown() {
     rm -f $FIXTURE $SYMBOLIC_LINK
 }
 
+@test "readlink with no argument" {
+   _run readlink
+   [ "$status" -eq 1 ]
+   [ "$output" = "readlink: missing operand" ]
+}
+
 @test "readlink with just a file" {
    _run readlink $FIXTURE
    [ "$status" -eq 1 ]
@@ -21,5 +27,5 @@ teardown() {
 @test "readlink with a symbolic link" {
    _run readlink $SYMBOLIC_LINK
    [ "$status" -eq 0 ]
-   [ "$output" = "$FIXTURE" ]
+   [ "$output" = "$(realpath $FIXTURE)" ]
 }

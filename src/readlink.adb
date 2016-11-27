@@ -19,9 +19,30 @@
 ------------------------------------------------------------------------------
 
 
-with Ada.Command_Line;
+with Ada.Command_Line,
+     Ada.Text_IO,
+     GNAT.Directory_Operations,
+     GNAT.OS_Lib;
 
 procedure Readlink is
+   use Ada.Command_Line,
+       Ada.Text_IO,
+       GNAT.Directory_Operations,
+       GNAT.OS_Lib;
 begin
-   Ada.Command_Line.Set_Exit_Status (1);
+   Set_Exit_Status (1);
+
+   if Argument_Count = 0 then
+      Put_Line ("readlink: missing operand");
+      return;
+   end if;
+
+   declare
+      Target : constant String := Argument (1);
+   begin
+      if Is_Symbolic_Link (Target) then
+         Put_Line (Normalize_Pathname (Target));
+         Set_Exit_Status (0);
+      end if;
+   end;
 end Readlink;
