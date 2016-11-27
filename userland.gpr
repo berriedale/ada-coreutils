@@ -3,7 +3,7 @@ aggregate project Userland is
 
    for Project_Files use ("gpr/ls.gpr",
       "gpr/true.gpr", "gpr/pwd.gpr",
-      "gpr/false.gpr");
+      "gpr/false.gpr", "gpr/sync.gpr");
 
    package Builder is
       for Global_Compilation_Switches ("Ada") use
