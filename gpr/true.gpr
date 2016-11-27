@@ -5,6 +5,10 @@ project True is
 
    for Main use ("bintrue.adb");
 
+   package Builder is
+      for Executable ("bintrue.adb") use "true";
+   end Builder;
+
    package Linker is
       for Default_Switches ("ada") use ("-fprofile-generate");
    end Linker;

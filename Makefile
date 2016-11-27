@@ -14,6 +14,6 @@ clean:
 	rm -rf ${BUILDDIR}
 
 check: all
-	@PATH=${BUILDDIR}:${PATH} ./contrib/bats/bin/bats t/**/*.bats
+	@./contrib/bats/bin/bats t/**/*.bats
 
 .PHONY: all pre check clean
