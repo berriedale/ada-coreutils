@@ -1,5 +1,4 @@
 ------------------------------------------------------------------------------
---  `pwd` a program which prints the current working directory
 --
 --  Copyright (C) 2016 R. Tyler Croy <tyler@linux.com>
 --
@@ -18,32 +17,12 @@
 --  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ------------------------------------------------------------------------------
 
+package Userland.Build is
 
-with Ada.Text_IO,
-     GNAT.Command_Line,
-     GNAT.Directory_Operations,
-     Userland.Build;
+   function Host return String;
+   -- Return the hostname from where this was built
 
-procedure Pwd is
-   use Ada.Text_IO,
-       GNAT.Command_Line,
-       GNAT.Directory_Operations;
 
-   PWD : constant String := Get_Current_Dir;
-begin
-
-   loop
-      case Getopt("-version") is
-         when '-' =>
-            if Full_Switch = "-version" then
-               Put_Line ("pwd " & Userland.Build.Version);
-               return;
-            end if;
-         when others => exit;
-      end case;
-   end loop;
-
-   -- Get_Current_Dir comes with a trailing slash, so we must trim that off for
-   -- printing
-   Put_Line (PWD (1 .. (PWD'Length - 1)));
-end Pwd;
+   function Version return String;
+   -- Return the built version of the this suite of tools
+end Userland.Build;

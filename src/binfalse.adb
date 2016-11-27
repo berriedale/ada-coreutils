@@ -22,7 +22,7 @@
 with Ada.Command_Line,
      Ada.Text_IO,
      GNAT.Command_Line,
-     Userland;
+     Userland.Build;
 
 procedure BinFalse is
    use GNAT.Command_Line;
@@ -31,7 +31,7 @@ begin
       case Getopt ("-version") is
       when '-' =>
          if Full_Switch = "-version" then
-            Ada.Text_IO.Put_Line ("false " & Userland.Version);
+            Ada.Text_IO.Put_Line ("false " & Userland.Build.Version);
          end if;
       when others => exit;
       end case;

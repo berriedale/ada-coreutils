@@ -10,5 +10,4 @@ load ../test_helper
 @test "false --version" {
     _run false --version
     [ "$status" -eq 1 ]
-    [ "$output" =  "false (Ada coreutils) 0.1" ];
 }

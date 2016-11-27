@@ -1,0 +1,17 @@
+#!/bin/sh
+
+cat > src/userland-build.adb <<EOF
+
+package body Userland.Build is
+
+   function Host return String is
+   begin
+      return "$(hostname)";
+   end Host;
+
+   function Version return String is
+   begin
+      return "(Ada coreutils) 0.1-$(git rev-parse --short HEAD)";
+   end Version;
+end Userland.Build;
+EOF

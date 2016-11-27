@@ -25,7 +25,4 @@ package Userland is
                       return String;
    -- Lower-case an entire Unbounded_String and return a Standard.String instead
 
-
-   function Version return String;
-   -- Return the built version of the this suite of tools
 end Userland;

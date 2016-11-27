@@ -9,6 +9,7 @@ all: pre
 pre:
 	@mkdir -p ${BUILDDIR}
 	@git submodule update --init
+	@./scripts/generate-version
 
 clean:
 	rm -rf ${BUILDDIR}

@@ -11,5 +11,4 @@ load ../test_helper
 @test "pwd --version" {
     _run pwd --version
     [ "$status" -eq 0 ]
-    [ "$output" =  "pwd (Ada coreutils) 0.1" ];
 }
