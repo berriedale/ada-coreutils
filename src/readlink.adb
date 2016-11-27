@@ -38,10 +38,21 @@ begin
    end if;
 
    declare
-      Target : constant String := Argument (1);
+      Target    : constant String := Argument (1);
+      Buf_Size  : constant Natural := 2048;
+      Buf       : String (1 .. Buf_Size) := (others => ASCII.NUL);
+      Num_Bytes : Natural := 0;
+
+      function Native_Readlink (Pathname : in String;
+                                Buffer   : in String;
+                                Length   : in Natural) return Natural
+         with Import,
+            Convention => C,
+            Link_Name  => "readlink";
    begin
       if Is_Symbolic_Link (Target) then
-         Put_Line (Normalize_Pathname (Target));
+         Num_Bytes := Native_Readlink (Target, Buf, Buf_Size);
+         Put_Line (Buf);
          Set_Exit_Status (0);
       end if;
    end;

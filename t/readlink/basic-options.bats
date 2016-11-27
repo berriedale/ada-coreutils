@@ -27,5 +27,5 @@ teardown() {
 @test "readlink with a symbolic link" {
    _run readlink $SYMBOLIC_LINK
    [ "$status" -eq 0 ]
-   [ "$output" = "$(realpath $FIXTURE)" ]
+   [ "$output" = "$(/bin/readlink $SYMBOLIC_LINK)" ]
 }
