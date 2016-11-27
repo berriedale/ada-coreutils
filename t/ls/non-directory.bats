@@ -2,8 +2,6 @@
 
 load ../test_helper
 
-FIXTURE=Fixturefile.$(date "+%Y%m%d-%H:%M")
-
 setup() {
     touch $FIXTURE
 }

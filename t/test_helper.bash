@@ -5,3 +5,5 @@
 _run() {
     run ./build/obj/$@
 }
+
+export FIXTURE=Fixturefile.$(date "+%Y%m%d-%H:%M")
